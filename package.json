@@ -1,0 +1,18 @@
+{
+  "name": "User-Activity-Management",
+  "version": "1.0.0",
+  "description": "Управление активностью пользователей и их действиями.",
+  "author": "Agakerimov Elvin",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start-user-service": "node  users-service/src/index.js",
+    "start:dev-history-service": "node  --trace-warnings history-service/src/main.ts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "axios": "^1.5.1",
+    "kafkajs": "^2.2.4",
+    "validator": "^13.11.0"
+  }
+}
