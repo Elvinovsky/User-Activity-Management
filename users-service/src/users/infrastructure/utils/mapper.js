@@ -13,14 +13,16 @@ export class UsersMapper {
             id: user.id,
             fullName: `${user.firstName} ${user.lastName}`,
             age: user.age,
+            createdAt: user.createdAt
         }
        }
     some(users) {
-        return users.map((users)=> {
+        return users.map((u)=> {
                 return {
-                    id: users.id,
-                    fullName: `${users.firstName} ${users.lastName}`,
-                    age: users.age,
+                    id: u.id,
+                    fullName: `${u.firstName} ${u.lastName}`,
+                    age: u.age,
+                    createdAt: u.createdAt
                 };
             }
         )

@@ -1,6 +1,6 @@
 # compiled output
 /node_modules
-./history-service/node_modules
+action-stories-service/node_modules
 users-service/node_modules
 
 # Logs

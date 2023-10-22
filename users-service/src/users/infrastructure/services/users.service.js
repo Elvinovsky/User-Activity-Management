@@ -13,10 +13,10 @@ export class UsersService {
                 firstName: firstName,
                 lastName: lastName,
                 age: age,
+                createdAt: new Date()
             };
 
            const newUser = await User.create(userBuild);
-           //await this._sender.sendUserCreatedEvent(newUser.id)
             return this._mapper.one(newUser);
         } catch (error) {
             console.error(error);
@@ -30,15 +30,12 @@ export class UsersService {
     }
 
     async update(updateData) {
-
         try {
-
             const resultUpdate = await User.update({ firstName: updateData.firstName, lastName: updateData.lastName, age: updateData.age },
                  {where:{id: updateData.id}});
 
             if(resultUpdate[0] !== 1) return false
 
-            //await this._sender.sendUserUpdateEvent(id)
             return true
         } catch (error) {
             console.error(error);

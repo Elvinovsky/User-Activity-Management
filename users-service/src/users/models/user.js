@@ -18,6 +18,12 @@ export const User = db.define('User', {
     age: {
         type: Sequelize.INTEGER,
         allowNull: false,
+    },
+    createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
     }
+},{
+    timestamps: false,
 });
 

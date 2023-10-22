@@ -15,18 +15,26 @@ usersRouter.post('/', ...bodyValidator, checkForErrors ,async (req, res) => {
         req.body.age,
         req.body.lastName,
     );
-   await axios.post('http://localhost:3000/history', resultCreate).then(function (response) {
-       console.log(response);
-   })
-       .catch(function (error) {
-           console.log(error);
-       });
+
+    const apiUrl = 'http://localhost:3000/history/create'
+
+    const requestData = {
+        id: resultCreate.id,
+        fullName: resultCreate.fullName
+    }
+
 
     if(resultCreate) {
+        await axios.post(apiUrl, requestData).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+            return res.sendStatus(500)
+        });
+
         return res.status(201).send(resultCreate)
     }
 
-    return res.sendStatus(500)
 });
 
 usersRouter.get('/', async (req, res) => {
@@ -34,25 +42,47 @@ usersRouter.get('/', async (req, res) => {
     res.send(getAllUsers);
 });
 
+usersRouter.get('/history', async (req, res) => {
+    try {
+        const queryParams = {
+            pageNumber: req.query?.pageNumber,
+            pageSize: req.query?.pageSize,
+        };
+        const getHistory = await axios.get('http://localhost:3000/history', {params: queryParams})
+
+        res.send(getHistory.data);
+    } catch (e) {
+        console.log(e)
+       return res.sendStatus(500)
+    }
+});
+
 usersRouter.put('/:id', paramValidator, ...bodyValidator, checkForErrors, async (req, res) => {
-    const updateData = {
+    const inputData = {
         id: req.params.id,
         firstName: req.body.firstName,
         age: req.body.age,
         lastName: req.body.lastName,
     }
 
-    const resultUpdate = await service.update(updateData);
-
+    const resultUpdate = await service.update(inputData);
     if (!resultUpdate) {
         res.sendStatus(404);
         return;
     }
-    await axios.put('http://localhost:3000/history', updateData).then(function (response) {
+
+    const apiUrl = 'http://localhost:3000/history/create'
+    const requestData = {
+        id: inputData.id,
+        fullName: `${inputData.firstName} ${inputData.lastName}`
+    }
+
+    await axios.post(apiUrl, requestData)
+        .then(function (response) {
         console.log(response);
-    })
-        .catch(function (error) {
+    }).catch(function (error) {
             console.log(error);
+            return res.sendStatus(500);
         });
 
     return res.sendStatus(204);
