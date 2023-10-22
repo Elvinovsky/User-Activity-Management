@@ -1,0 +1,3 @@
+[submodule "action-stories-service"]
+	path = action-stories-service
+	url = git@github.com:Elvinovsky/action-stories-service.git
