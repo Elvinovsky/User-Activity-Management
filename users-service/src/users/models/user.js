@@ -21,12 +21,8 @@ export const User = db.define(
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
   },
   {
-    timestamps: false,
+    timestamps: true,
   },
 );

@@ -1,12 +1,13 @@
 import express from 'express';
 import { config } from './users/infrastructure/config/configuration.js';
 import { usersRouter } from './users/api/users.router.js';
+import bodyParser from 'body-parser';
 
-const bodyParser = express.json();
 const app = express();
 const port = config.PORT;
 
-app.use(bodyParser);
+app.use(bodyParser.json());
+
 app.use('/users', usersRouter);
 
 app.get('/', (req, res) => {

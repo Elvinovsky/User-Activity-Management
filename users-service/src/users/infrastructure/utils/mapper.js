@@ -24,3 +24,21 @@ export class UsersMapper {
     });
   }
 }
+
+export function setActualData(history, actualData) {
+  const activityHistory = history.data.items[0];
+
+  if (activityHistory.actualData.changedAt === actualData.updatedAt) {
+    return history;
+  } else {
+    // корректируем старые данные юзера с учетом пагинации
+    activityHistory.oldData.push(activityHistory.actualData);
+    activityHistory.oldData.pop();
+
+    // задаем последние обновленные данные юзера.
+    activityHistory.actualData.fullName = `${actualData.firstName} ${actualData.lastName}`;
+    activityHistory.actualData.age = actualData.age;
+    activityHistory.actualData.changedAt = actualData.updatedAt;
+    return history;
+  }
+}

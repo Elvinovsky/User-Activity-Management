@@ -5,6 +5,7 @@ import axios from 'axios';
 import { paramValidator } from '../infrastructure/middlewares/param-validator.js';
 import bodyValidator from '../infrastructure/middlewares/body-validator.js';
 import { checkForErrors } from '../infrastructure/exceptions/exceptions-filter.js';
+import { setActualData } from '../infrastructure/utils/mapper.js';
 
 export const usersRouter = Router();
 
@@ -71,6 +72,7 @@ usersRouter.get('/history', async (req, res) => {
 });
 
 // 4. Получение истории действий с определенным пользователем.
+// ( ручка, которая отдаст историю действий с фильтрами по id пользователя и постраничной навигацией.)
 usersRouter.get('/history/:id', paramValidator, async (req, res) => {
   try {
     const userId = req.params.id;
@@ -90,13 +92,11 @@ usersRouter.get('/history/:id', paramValidator, async (req, res) => {
         params: queryParams,
       },
     );
-    console.log( getHistory.data)
+    console.log(getHistory.data);
 
-    getHistory.data.items[0].actualData.fullName = userExist.fullName;
-    getHistory.data.items[0].actualData.age = userExist.age;
-    getHistory.data.items[0].actualData.changedAt = userExist.createdAt;
+    const responseView = setActualData(getHistory, userExist);
 
-    res.send(getHistory.data);
+    res.send(responseView.data);
   } catch (error) {
     console.error('Error fetching history:', error);
     res.status(500).send({ message: 'Error fetching history' });
@@ -141,3 +141,17 @@ usersRouter.put(
     }
   },
 );
+
+usersRouter.delete('/history/all-data', async (req, res) => {
+  try {
+    const apiUrl = 'http://localhost:3000/history/testing/all-data';
+
+    const response = await axios.delete(apiUrl);
+    console.log(response);
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error('Error clear db', error);
+    throw new Error();
+  }
+});

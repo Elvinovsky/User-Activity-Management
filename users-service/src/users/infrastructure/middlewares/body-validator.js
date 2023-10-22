@@ -5,27 +5,24 @@ const checkFirstName = body('firstName')
   .bail()
   .isLength({ min: 1 })
   .withMessage('Имя обязательно для заполнения')
-  .custom((firstName) => {
-    if (typeof firstName !== 'string') {
-      throw new Error('Имя должно быть строкой');
-    }
-    return true; // Указывает, что проверка пройдена
-  });
+  .bail()
+  .matches(/(?=.*[a-zа-яё])(?=.*[A-ZА-ЯЁ])/, 'i')
+  .withMessage('Имя должно быть строкой');
 
 const checkLastName = body('lastName')
   .trim()
   .bail()
   .isLength({ min: 1 })
   .withMessage('Фамилия обязательна для заполнения')
-  .custom((lastName) => {
-    if (typeof lastName !== 'string') {
-      throw new Error('Фамилия должна быть строкой');
-    }
-    return true; // Указывает, что проверка пройдена
-  });
+  .bail()
+  .matches(/(?=.*[a-zа-яё])(?=.*[A-ZА-ЯЁ])/, 'i')
+  .withMessage('Фамилия должна быть строкой');
 
 const checkAge = body('age')
   .trim()
+  .bail()
+  .isLength({ min: 1 })
+  .withMessage('Возраст обязателен для заполнения')
   .isInt({ min: 1 })
   .withMessage('Возраст должен быть положительным целым числом');
 

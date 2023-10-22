@@ -7,8 +7,12 @@ export class UsersService {
   }
 
   async findUser(id) {
-    const user = await User.findByPk(id);
-    return this._mapper.one(user);
+    return await User.findByPk(id);
+  }
+
+  async getUsers() {
+    const users = await User.findAll();
+    return this._mapper.some(users);
   }
 
   async create(firstName, age, lastName) {
@@ -24,11 +28,6 @@ export class UsersService {
       console.error(error);
       throw new Error('Ошибка при создании пользователя');
     }
-  }
-
-  async getUsers() {
-    const users = await User.findAll();
-    return this._mapper.some(users);
   }
 
   async update(updateData) {
