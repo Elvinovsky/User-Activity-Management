@@ -2,44 +2,47 @@ import { v4 as uuidv4 } from 'uuid';
 import { User } from '../../models/user.js';
 
 export class UsersService {
-    constructor(mapper) {
-        this._mapper = mapper
+  constructor(mapper) {
+    this._mapper = mapper;
+  }
+
+  async findUser(id) {
+    const user = await User.findByPk(id);
+    return this._mapper.one(user);
+  }
+
+  async create(firstName, age, lastName) {
+    try {
+      const id = uuidv4(); // Генерируем новый UUID
+      const createdAt = new Date(); // Текущая дата создания
+
+      const user = { id, firstName, lastName, age, createdAt };
+      const newUser = await User.create(user);
+
+      return this._mapper.one(newUser);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Ошибка при создании пользователя');
     }
+  }
 
-    async create(firstName, age, lastName) {
-        try {
-            const userBuild = {
-                id: uuidv4(),
-                firstName: firstName,
-                lastName: lastName,
-                age: age,
-                createdAt: new Date()
-            };
+  async getUsers() {
+    const users = await User.findAll();
+    return this._mapper.some(users);
+  }
 
-           const newUser = await User.create(userBuild);
-            return this._mapper.one(newUser);
-        } catch (error) {
-            console.error(error);
-            throw new Error('Ошибка при создании пользователя');
-        }
+  async update(updateData) {
+    try {
+      const { id, firstName, lastName, age } = updateData;
+      const [rowsUpdated] = await User.update(
+        { firstName, lastName, age },
+        { where: { id } },
+      );
+
+      return rowsUpdated === 1; // Обновление успешно, если обновлен один ряд
+    } catch (error) {
+      console.error(error);
+      throw new Error('Ошибка при обновлении пользователя');
     }
-
-    async getUsers() {
-        const users = await User.findAll();
-        return this._mapper.some(users)
-    }
-
-    async update(updateData) {
-        try {
-            const resultUpdate = await User.update({ firstName: updateData.firstName, lastName: updateData.lastName, age: updateData.age },
-                 {where:{id: updateData.id}});
-
-            if(resultUpdate[0] !== 1) return false
-
-            return true
-        } catch (error) {
-            console.error(error);
-            throw new Error('Ошибка при обновлении пользователя');
-        }
-    }
+  }
 }

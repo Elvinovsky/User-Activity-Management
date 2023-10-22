@@ -1,9 +1,7 @@
 import { UsersService } from './services/users.service.js';
-import {UsersMapper} from "./utils/mapper.js";
+import { UsersMapper } from './utils/mapper.js';
 
+const mapper = new UsersMapper();
+const service = new UsersService(mapper);
 
-
-const mapper = new UsersMapper()
-const service = new UsersService(mapper)
-
-export default service
+export default service;

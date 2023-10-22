@@ -5,7 +5,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start:dev": "yarn nodemon --inspect src/index.js"
+    "start:dev": "yarn nodemon --inspect src/index.js",
+    "format": "yarn prettier --write \"src/**/*.js\"",
+    "lint": "yarn eslint \"src/**/*.js\" --fix"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
@@ -18,5 +20,9 @@
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.33.0",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.52.0",
+    "prettier": "3.0.3"
   }
 }
