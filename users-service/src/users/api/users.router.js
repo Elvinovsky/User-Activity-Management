@@ -18,7 +18,7 @@ usersRouter.post('/', bodyValidator, checkForErrors, async (req, res) => {
       req.body.lastName,
     );
 
-    const apiUrl = 'http://localhost:3000/history/create';
+    const apiUrl = 'http://localhost:3000/history';
     const requestData = {
       id: resultCreate.id,
       fullName: resultCreate.fullName,
@@ -124,7 +124,7 @@ usersRouter.put(
         return;
       }
 
-      const apiUrl = 'http://localhost:3000/history/create';
+      const apiUrl = 'http://localhost:3000/history';
       const requestData = {
         id: inputData.id,
         fullName: `${inputData.firstName} ${inputData.lastName}`,

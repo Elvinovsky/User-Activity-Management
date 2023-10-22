@@ -5,6 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "start": "node src/index.js",
     "start:dev": "yarn nodemon --inspect src/index.js",
     "format": "yarn prettier --write \"src/**/*.js\"",
     "lint": "yarn eslint \"src/**/*.js\" --fix"

@@ -25,7 +25,9 @@ const validBodyUpdate = {
   lastName: 'Агакеримов',
   firstName: 'Эльвин',
 };
+
 let createUser;
+
 describe('Users E2E Tests', () => {
   beforeAll(async () => {
     await sequelize.truncate();
